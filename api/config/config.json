@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "admin",
-    "password": "4D47D0FA",
-    "database": "webook",
-    "host": "webook-instance-1.ciluasfmkj9g.ap-southeast-1.rds.amazonaws.com",
-    "dialect": "mysql"
-  }
-}
