@@ -43,7 +43,7 @@ const HomeScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => console.log("Sign In")}
+          onPress={() => props.navigation.navigate("SignIn")}
         >
           Sign In
         </Button>
@@ -51,7 +51,7 @@ const HomeScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => console.log("Sign Up")}
+          onPress={() => props.navigation.navigate("SignUp")}
         >
           Sign Up
         </Button>
