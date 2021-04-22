@@ -1,8 +1,13 @@
-const userController = require('./user/controller/userController')
+const sequelize = require('./db');
 
-const express = require('express')
-const app = express()
-const port = 3000
+// Controller
+const userController = require('./user/controller/userController');
+
+const app = require('express')();
+const port = 3000;
+
+sequelize.sync({ alter: true });
+console.log(sequelize.models);
 
 app.use('/user', userController)
 
