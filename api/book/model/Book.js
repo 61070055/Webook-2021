@@ -1,32 +1,32 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
-const User = {
+const Book = {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  email: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  password: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  firstName: {
+  description: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  lastName: {
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  cover: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  salt: {
-    type: DataTypes.STRING,
+  length: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 };
 
-module.exports = User;
+module.exports = Book;

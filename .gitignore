@@ -10,5 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 .DS_Store
-api/config/.env
+api/.env
 api/config/config.json
+api/config/.env
