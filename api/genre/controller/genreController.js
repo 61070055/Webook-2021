@@ -52,7 +52,7 @@ router.post('/create', async (req, res) => {
     res.send({
       statusCode: 201,
       message: 'Created',
-      data: genres
+      data: genre
     })
   } catch (e) {
     console.error(e)
