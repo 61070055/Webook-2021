@@ -1,15 +1,20 @@
-const sequelize = require('./db');
+const express = require('express')
+const bodyParser = require('body-parser')
 
 // Controller
 const userController = require('./user/controller/userController');
+const genreController = require('./genre/controller/genreController');
 
-const app = require('express')();
+const app = express();
 const port = 3000;
 
+app.use(bodyParser.json())
+
 app.use('/user', userController)
+app.use('/genre', genreController)
 
 app.get('/', (req, res) => {
-  res.send('♥ This API is up and running ♥')
+  res.status(404).send('Sorry dude, not thing here')
 })
 
 app.listen(port, () => {

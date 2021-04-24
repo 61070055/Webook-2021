@@ -55,4 +55,14 @@ Store.hasMany(Book);
 User.hasOne(Token);
 // Token.hasOne(User);
 
-module.exports = sequelize;
+module.exports.models = {
+  user: User,
+  book: Book,
+  library: Library,
+  genre: Genre,
+  cart: Cart,
+  store: Store,
+  token: Token
+}
+
+module.exports.sequelize = sequelize;
