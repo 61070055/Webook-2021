@@ -6,9 +6,6 @@ const userController = require('./user/controller/userController');
 const app = require('express')();
 const port = 3000;
 
-sequelize.sync({ alter: true });
-console.log(sequelize.models);
-
 app.use('/user', userController)
 
 app.get('/', (req, res) => {
