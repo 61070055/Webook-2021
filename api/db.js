@@ -50,7 +50,7 @@ Card.belongsTo(User);
 User.hasMany(Card);
 
 // User.hasOne(Store);
-Store.hasMany(User);
+// Store.hasMany(User);
 Store.hasMany(Book);
 User.hasOne(Token);
 // Token.hasOne(User);
