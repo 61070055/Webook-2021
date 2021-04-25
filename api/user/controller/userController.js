@@ -1,4 +1,4 @@
-let router = require('express').Router()
+const router = require('express').Router()
 
 router.get('/test', function (req, res) {
     res.send({
