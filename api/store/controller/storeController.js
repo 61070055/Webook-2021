@@ -6,22 +6,27 @@ const models = db.models
 
 router.get('', async (req, res) => {
   try {
-    let books = await models.book.findAll({
+    let stores = await models.store.findAll({
       where: {
         name: {
           [Op.substring]: req.query.name || ''
         }
       },
-      include: [ models.genre ]
-    });
+      include: [
+        {
+          model: models.book,
+          include: [models.genre]
+        }
+      ]
+    })
 
-    if (books.length === 0) {
+    if (stores.length === 0) {
       res.sendStatus(404)
     } else {
       res.send({
         statusCode: 200,
         message: 'OK',
-        data: books
+        data: stores
       })
     }
 
@@ -33,20 +38,24 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    let book = await models.book.findByPk(req.params.id, {
-      include: [models.genre]
+    let store = await models.store.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.book,
+          include: [models.genre]
+        }
+      ]
     })
 
-    if (book === null) {
+    if (store) {
+      res.send({
+        statusCode: 200,
+        message: 'OK',
+        data: store
+      })
+    } else {
       res.sendStatus(404)
-      return 0;
     }
-
-    res.send({
-      statusCode: 200,
-      message: 'OK',
-      data: book
-    })
 
   } catch (e) {
     console.error(e)
@@ -56,21 +65,12 @@ router.get('/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    let book = await models.book.create(req.body.book)
-    book.setGenres(req.body.genres)
-
-    let result = await models.book.findByPk(book.id, {
-      include: [
-        models.genre,
-      ]
-    })
-
+    let store = await models.store.create(req.body)
     res.send({
       statusCode: 201,
       message: 'Created',
-      data: result
+      data: store
     })
-
   } catch (e) {
     console.log(e)
     res.sendStatus(500)
@@ -79,61 +79,44 @@ router.post('/create', async (req, res) => {
 
 router.patch('/update/:id', async (req, res) => {
   try {
-    await models.book.update(
-      {
-        ...req.body.book
-      },
-      {
-        where: { id: req.params.id }
-      }
+    let store = await models.store.update(
+      req.body,
+      { where: { id: req.params.id } }
     )
-
-    let book = await models.book.findByPk(req.params.id, {
-      include: [models.genre]
-    })
-
-    if (book === null) {
+    if (!store) {
       res.sendStatus(404)
-      return 0
-    }
-
-    await book.setGenres(req.body.genres)
-
-    res.send({
-      statusCode: 200,
-      message: 'Book with given ID has been updated',
-      data: await models.book.findByPk(req.params.id, {
-        include: [models.genre]
+    } else {
+      res.send({
+        statusCode: 200,
+        message: 'Store with given ID has been updated',
+        data: await models.store.findByPk(req.params.id)
       })
-    })
-
+    }
   } catch (e) {
-    console.error(e)
+    console.log(e)
     res.sendStatus(500)
   }
 })
 
 router.delete('/:id', async (req, res) => {
   try {
-    let isDeleted = await models.book.destroy(
+    let isDeleted = await models.store.destroy(
       {
         where: {
           id: req.params.id
         }
       }
     )
-
     if (isDeleted) {
       res.send({
         statusCode: 200,
-        message: 'Book with given ID has been delete'
+        message: 'Store with given ID has been delete'
       })
     } else {
       res.sendStatus(404)
     }
-
   } catch (e) {
-    console.error(e)
+    console.log(e)
     res.sendStatus(500)
   }
 })

@@ -49,11 +49,9 @@ User.hasOne(Cart);
 Card.belongsTo(User);
 User.hasMany(Card);
 
-// User.hasOne(Store);
-// Store.hasMany(User);
-Store.hasMany(Book);
+Store.hasMany(Book, { onDelete: 'cascade' });
 User.hasOne(Token);
-// Token.hasOne(User);
+
 
 module.exports.models = {
   user: User,
