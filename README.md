@@ -12,8 +12,14 @@ npm i
 
 ## Development
 
-```python
+```bash
 npm run dev
+```
+
+## Migrate
+
+```bash
+npm run migrate
 ```
 
 ## License
