@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const db = require('../../db')
 const router = require('express').Router()
 
@@ -5,12 +6,28 @@ const models = db.models
 
 router.get('', async (req, res) => {
   try {
-    let genres = await models.genre.findAll()
-    res.send({
-      statusCode: 200,
-      message: 'OK',
-      data: genres
-    })
+    let books = await models.book.findAll({
+      where: {
+        name: {
+          [Op.substring]: req.query.name
+        }
+      },
+      include: [ models.genre ]
+    });
+
+    if (books.length === 0) {
+      res.send({
+        statusCode: 404,
+        message: 'Not Found',
+      })
+    } else {
+      res.send({
+        statusCode: 200,
+        message: 'OK',
+        data: books
+      })
+    }
+
   } catch (e) {
     console.error(e)
     res.send({
@@ -22,20 +39,22 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    let genre = await models.genre.findByPk(req.params.id)
+    let book = await models.book.findByPk(req.params.id, {
+      include: [models.genre]
+    })
 
-    if (genre === null) {
+    if (book === null) {
       res.send({
         statusCode: 404,
-        message: 'Genre Not Found',
+        message: 'No book with given ID',
       })
-      return 0
+      return 0;
     }
 
     res.send({
       statusCode: 200,
       message: 'OK',
-      data: genre
+      data: book
     })
 
   } catch (e) {
@@ -49,14 +68,23 @@ router.get('/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    let genre = await models.genre.create(req.body)
+    let book = await models.book.create(req.body.book)
+    book.setGenres(req.body.genres)
+
+    let result = await models.book.findByPk(book.id, {
+      include: [
+        models.genre
+      ]
+    })
+
     res.send({
       statusCode: 201,
       message: 'Created',
-      data: genre
+      data: result
     })
+
   } catch (e) {
-    console.error(e)
+    console.log(e)
     res.send({
       statusCode: 500,
       message: 'Internal Server Error'
@@ -66,24 +94,29 @@ router.post('/create', async (req, res) => {
 
 router.patch('/update/:id', async (req, res) => {
   try {
-    await models.genre.update(
+    await models.book.update(
       {
-        ...req.body
+        ...req.body.book
       },
       {
-        where: {
-          id: req.params.id
-        }
+        where: { id: req.params.id }
       }
     )
 
-    let genre = await models.genre.findByPk(req.params.id)
+    let book = await models.book.findByPk(req.params.id, {
+      include: [models.genre]
+    })
+
+    await book.setGenres(req.body.genres)
 
     res.send({
       statusCode: 200,
-      message: 'Genre has been updated',
-      data: genre
+      message: 'Book has been updated',
+      data: await models.book.findByPk(req.params.id, {
+        include: [models.genre]
+      })
     })
+
   } catch (e) {
     console.error(e)
     res.send({
@@ -95,7 +128,7 @@ router.patch('/update/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let isDeleted = await models.genre.destroy(
+    let isDeleted = await models.book.destroy(
       {
         where: {
           id: req.params.id
@@ -106,14 +139,15 @@ router.delete('/:id', async (req, res) => {
     if (isDeleted) {
       res.send({
         statusCode: 200,
-        message: 'Genre with given ID has been deleted'
+        message: 'Book with given ID has been delete'
       })
     } else {
       res.send({
         statusCode: 404,
-        message: 'There is no such genre with given ID'
+        message: 'There is no such book with give ID'
       })
     }
+
   } catch (e) {
     console.error(e)
     res.send({
@@ -122,6 +156,5 @@ router.delete('/:id', async (req, res) => {
     })
   }
 })
-
 
 module.exports = router
