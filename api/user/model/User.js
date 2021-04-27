@@ -27,6 +27,9 @@ const User = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  profilePicture: {
+    type: DataTypes.STRING,
+  }
 };
 
 module.exports = User;
