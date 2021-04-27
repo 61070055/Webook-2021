@@ -49,18 +49,19 @@ User.hasOne(Cart);
 Card.belongsTo(User);
 User.hasMany(Card);
 
-Store.hasMany(Book, { onDelete: 'cascade' });
+Store.hasMany(Book, { onDelete: "cascade" });
 User.hasOne(Token);
-
 
 module.exports.models = {
   user: User,
   book: Book,
-  library: Library,
   genre: Genre,
-  cart: Cart,
   store: Store,
-  token: Token
-}
+  card: Card,
+
+  library: Library,
+  cart: Cart,
+  token: Token,
+};
 
 module.exports.sequelize = sequelize;

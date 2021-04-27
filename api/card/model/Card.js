@@ -8,7 +8,7 @@ const Card = {
     autoIncrement: true,
   },
   card_number: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   holder_name: {
