@@ -2,38 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 
-// import { AppLoading } from "expo-app-loading";
-// import {
-//   useFonts,
-//   Kanit_100Thin,
-//   Kanit_100Thin_Italic,
-//   Kanit_200ExtraLight,
-//   Kanit_200ExtraLight_Italic,
-//   Kanit_300Light,
-//   Kanit_300Light_Italic,
-//   Kanit_400Regular,
-//   Kanit_400Regular_Italic,
-//   Kanit_500Medium,
-//   Kanit_500Medium_Italic,
-//   Kanit_600SemiBold,
-//   Kanit_600SemiBold_Italic,
-//   Kanit_700Bold,
-//   Kanit_700Bold_Italic,
-//   Kanit_800ExtraBold,
-//   Kanit_800ExtraBold_Italic,
-//   Kanit_900Black,
-//   Kanit_900Black_Italic,
-// } from "@expo-google-fonts/kanit";
-
-const HomeScreen = (props) => {
-  // let [fontsLoaded, error] = useFonts({
-  //   Kanit_100Thin,
-  //   Kanit_900Black,
-  // });
-
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // } else {}
+const LandingScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo_box}>
@@ -86,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default LandingScreen;

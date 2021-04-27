@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
+// import * as Font from 'expo-font';
+// import Icon from "react-native-vector-icons/FontAwesome";
 
-const HomeScreen = (props) => {
+const SignInScreen = (props) => {
   const [text, setText] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={{ padding: null }}>
       <View style={styles.logo_box}>
         <Image source={require("../assets/Logo.png")} />
       </View>
@@ -41,8 +49,15 @@ const HomeScreen = (props) => {
           Forgot Email / Password
         </Text>
         <Image source={require("../assets/Or.png")} />
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 15 }}>
+          <Image
+            style={{ marginRight: 80 }}
+            source={require("../assets/Google-Logo.png")}
+          />
+          <Image source={require("../assets/Facebook-Logo.png")} />
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -50,13 +65,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#DBCBBD",
+    width: "100%",
+    height: "100%",
   },
   logo_box: {
     flex: 2,
-    right: "50%",
+    left: "25%",
     top: "50%",
     position: "relative",
-    transform: [{ translateX: 260 }, { translateY: -300 }],
+    transform: [{ translateY: -300 }],
   },
   option_box: {
     flex: 3,
@@ -70,12 +87,20 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#87431D",
     width: "85%",
-    height: "12%",
+    height: "15%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
+    borderRadius: 30,
     margin: 10,
   },
+  // other: {
+  //   // height: "10%",
+  //   flex: 0.5,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   display: "flex",
+  //   flexDirection: "row",
+  // },
 });
 
-export default HomeScreen;
+export default SignInScreen;
