@@ -1,33 +1,63 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 
-const LandingScreen = (props) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.logo_box}>
-        <Image source={require("../assets/Logo.png")} />
+import AppLoading from "expo-app-loading";
+import * as Font from "expo-font";
+
+class LandingScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fontsLoaded: true,
+    };
+    this._fontsLoaded = this._fontsLoaded.bind(this);
+  }
+
+  componentDidMount() {
+    this._fontsLoaded();
+  }
+
+  async _fontsLoaded() {
+    await Font.loadAsync({
+      KanitBlack: require("../assets/fonts/Kanit-Black.ttf"),
+    });
+
+    this.setState({ fontsLoaded: false });
+  }
+
+  render() {
+    const { fontsLoaded } = this.state;
+
+    if (fontsLoaded) {
+      return <AppLoading />;
+    }
+    return (
+      <View style={styles.container}>
+        <View style={styles.logo_box}>
+          <Image source={require("../assets/Logo.png")} />
+        </View>
+        <View style={styles.option_box}>
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={() => this.props.navigation.navigate("SignIn")}
+          >
+            Sign In
+          </Button>
+          <Image source={require("../assets/Or.png")} />
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={() => this.props.navigation.navigate("SignUp")}
+          >
+            Sign Up
+          </Button>
+        </View>
       </View>
-      <View style={styles.option_box}>
-        <Button
-          style={styles.button}
-          mode="contained"
-          onPress={() => props.navigation.navigate("SignIn")}
-        >
-          Sign In
-        </Button>
-        <Image source={require("../assets/Or.png")} />
-        <Button
-          style={styles.button}
-          mode="contained"
-          onPress={() => props.navigation.navigate("SignUp")}
-        >
-          Sign Up
-        </Button>
-      </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     margin: 20,
-    // fontFamily: "Kanit_100Thin",
   },
 });
 
