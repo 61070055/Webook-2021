@@ -37,9 +37,6 @@ Book.belongsToMany(User, { through: Library });
 Genre.belongsToMany(Book, { through: "BookGenre" });
 Book.belongsToMany(Genre, { through: "BookGenre" });
 
-User.belongsToMany(Book, { through: "Wishlist" });
-Book.belongsToMany(User, { through: "Wishlist" });
-
 Cart.belongsToMany(Book, { through: "CartBook" });
 Book.belongsToMany(Cart, { through: "CartBook" });
 
@@ -53,7 +50,7 @@ Store.hasMany(Book, { onDelete: "cascade" });
 User.hasOne(Token);
 
 module.exports.models = {
-  user: User,
+  user: User, //Update path wishlist ใน User
   book: Book,
   genre: Genre,
   store: Store,
