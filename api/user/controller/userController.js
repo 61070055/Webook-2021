@@ -42,10 +42,32 @@ router.post("/register", async (req, res) => {
       data: user,
     });
   } catch (e) {
+    console.error(e)
+    res.sendStatus(500)
+  }
+});
+
+router.post('/login', async () => {
+  try {
+    let { email, password } = req.body
+    
+    let user = await models.user.findOne({
+      where: {
+        email: email
+      }
+    })
+
+    if (user.password === hashPassword(password, user.salt)) {
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(400)
+    }
+
+  } catch (e) {
     console.error(e);
     res.sendStatus(500);
   }
-});
+})
 
 router.patch("/change-password/:id", async (req, res) => {
   try {

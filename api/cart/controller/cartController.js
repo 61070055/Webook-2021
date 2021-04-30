@@ -42,14 +42,14 @@ router.post("/:id/add", async (req, res) => {
     });
     console.log(created);
     if (created) {
-      all.setBooks(req.body.book);
+      all.addBooks(req.body.book);
       res.send({
         statusCode: 200,
         message: "Book Add",
         data: all,
       });
     } else {
-      all.setBooks(req.body.book);
+      all.addBooks(req.body.book);
       res.send({
         statusCode: 200,
         message: "Book Add",
