@@ -15,7 +15,9 @@ export default class App extends Component {
   async loadAssetsAsync() {
     await Font.loadAsync({
       // Load a font `Montserrat` from a static resource
-      "material-community": require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"),
+      "kanit-regular": {
+        uri: require('./assets/fonts/Kanit-Regular.ttf'),
+      }
     });
     this.setState({ fontLoaded: true });
   }
