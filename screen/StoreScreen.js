@@ -6,7 +6,11 @@ const StoreScreen = (props) => {
   return (
     <View style={styles.container}>
       <Navbar />
-      <Text>This is Store</Text>
+      <View style={{ flex: 9 }}>
+        <Text>
+          FEATURED
+        </Text>
+      </View>
     </View>
   );
 };
