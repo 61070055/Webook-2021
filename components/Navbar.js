@@ -1,21 +1,31 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Avatar } from "react-native-paper";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, IconButton, Colors } from "react-native-paper";
+import color from '../utils/color'
 
-const StoreScreen = (props) => {
+const nevBar = (props) => {
+
   const [searchQuery, setSearchQuery] = React.useState("");
   const onChangeSearch = (query) => setSearchQuery(query);
+
   return (
     <View style={styles.container}>
       <View style={styles.option}>
-        <Avatar.Text size={40} label="A" style={{ backgroundColor: "red" }} />
+        <Avatar.Text size={40} label="A" style={styles.avatar} />
         <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}
           value={searchQuery}
+          style={styles.Searchbar}
         />
-        <Text>This is Store</Text>
+        <IconButton
+          icon="cart"
+          color={Colors.white}
+          size={25}
+          onPress={() => console.log('Pressed')}
+          style={styles.cart}
+        />
       </View>
     </View>
   );
@@ -23,16 +33,29 @@ const StoreScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#290001",
+    backgroundColor: color.darkBrown,
     width: "100%",
     height: "8%",
     display: "flex",
+    flex: 1
   },
   option: {
-    margin: 8,
+    marginTop: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    padding: 10
   },
+  avatar: {
+    flex: 1,
+  },
+  Searchbar: {
+    borderRadius: 100,
+    flex: 7,
+    height: '80%',
+    backgroundColor: color.lightBrown
+  },
+  cart: {
+    flex: 1
+  }
 });
 
-export default StoreScreen;
+export default nevBar;

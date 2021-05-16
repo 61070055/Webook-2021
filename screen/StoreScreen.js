@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DBCBBD",
     width: "100%",
     height: "100%",
+    fontFamily: "kanit-regular",
   },
   box: {
     flex: 3,
