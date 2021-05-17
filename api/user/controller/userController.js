@@ -67,7 +67,19 @@ router.post('/login', async (req, res) => {
     })
 
     if (user.password === hashPassword(password, user.salt)) {
-      res.sendStatus(200)
+      res.send({
+        statusCode: 200,
+        message: "OK",
+        data: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastname,
+          profilePicture: user.profilePicture,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt
+        },
+      });
     } else {
       res.sendStatus(400)
     }
