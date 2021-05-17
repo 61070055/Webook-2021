@@ -15,7 +15,7 @@ import Navbar from "../components/Navbar";
 
 const window = Dimensions.get("window");
 
-const LibraryScreen = (props) => {
+const BookDetail = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [carouselItems, setCarouselItems] = useState([
     {
@@ -122,40 +122,30 @@ const LibraryScreen = (props) => {
                 >
                   Fantasy · Adventure
                 </Text>
+                <Text h3 h3Style={{color: 'white', marginBottom: 5, textAlign: 'center'}}>
+                  699 THB.
+                </Text>
                 <Button
-                  title="Continue Reading"
+                  title="Add To Cart"
                   buttonStyle={{
                     backgroundColor: color.lightBrown,
                     borderRadius: 10,
                   }}
                   onPress={() => props.navigation.navigate("Reader")}
                 />
-                {/* <Text style={{alignSelf: 'flex-end', textAlign: 'center', fontSize: 10}}>Fantasy · Adventure</Text> */}
               </View>
             </View>
           </View>
-          {/* Favorite */}
-          <View style={{ flex: 1 }}>
-            <Text h3 style={styles.headerText}>
-              {" "}
-              Favorite{" "}
-            </Text>
-            <Carousel
-              layout={"default"}
-              data={carouselItems}
-              sliderWidth={window.width}
-              itemWidth={200}
-              renderItem={_renderItem}
-              onSnapToItem={(index) => setActiveIndex(index)}
-            />
-            <Paginations />
-          </View>
-
           {/* Recently Read Book*/}
+          <Text style={{ margin: 15 }}>
+            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged.
+          </Text>
           <View style={{ flex: 1 }}>
             <Text h3 style={styles.headerText}>
-              {" "}
-              Recent Book{" "}
+              {" "}More Like This{" "}
             </Text>
             <Carousel
               layout={"default"}
@@ -212,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LibraryScreen;
+export default BookDetail;
