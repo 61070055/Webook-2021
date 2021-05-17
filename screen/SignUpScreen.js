@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import axios from "axios";
 
 const SignUpScreen = (props) => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,34 @@ const SignUpScreen = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [error, setError] = useState("");
+
+  const handleRegister = () => {
+    let body = {
+      firstName: firstname,
+      lastName: lastname,
+      email: email,
+      password: password,
+      profilePicture: "link.to.pic",
+    };
+
+    if (password === confirmPassword) {
+      axios
+        .post("http://3.113.31.126:3000/user/register", body)
+        .then((res) => {
+          console.log(res);
+          // console.log(res.data);
+          props.navigation.navigate("SignIn");
+        })
+        .catch((e) => {
+          console.log(e);
+          setError("Something went wrong!");
+        });
+    } else {
+      console.log("password doesn't match");
+      setError("password doesn't match");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -56,10 +85,11 @@ const SignUpScreen = (props) => {
           <Button
             style={styles.button}
             mode="contained"
-            onPress={() => console.log("Register")}
+            onPress={() => handleRegister()}
           >
             Register
           </Button>
+          <Text style={styles.error}>{error}</Text>
         </View>
       </View>
     </View>
@@ -102,6 +132,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 30,
     marginTop: 30,
+  },
+  error: {
+    fontSize: 20,
+    color: "red",
   },
 });
 
