@@ -11,6 +11,7 @@ import StoreScreen from "../screen/StoreScreen";
 import LibraryScreen from "../screen/LibraryScreen";
 import ProfileScreen from "../screen/ProfileScreen";
 import ReaderScreen from "../screen/ReaderScreen";
+import BookDetail from "../screen/BookDetail";
 
 import color from "../utils/color";
 
@@ -30,6 +31,7 @@ const AppNavigator = createDrawerNavigator(
     Library: LibraryScreen,
     Store: StoreScreen,
     Profile: ProfileScreen,
+    Detail: BookDetail
   },
   {
     style: styles.drawer,
