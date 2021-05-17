@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Avatar } from "react-native-paper";
 import { Searchbar, IconButton, Colors } from "react-native-paper";
-import color from '../utils/color'
+import color from "../utils/color";
 
 const nevBar = (props) => {
-
   const [searchQuery, setSearchQuery] = React.useState("");
   const onChangeSearch = (query) => setSearchQuery(query);
 
@@ -23,7 +22,7 @@ const nevBar = (props) => {
           icon="cart"
           color={Colors.white}
           size={25}
-          onPress={() => console.log('Pressed')}
+          onPress={() => console.log("Pressed")}
           style={styles.cart}
         />
       </View>
@@ -37,12 +36,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "8%",
     display: "flex",
-    flex: 1
+    flex: 1,
   },
   option: {
     marginTop: 10,
     flexDirection: "row",
-    padding: 10
+    padding: 10,
   },
   avatar: {
     flex: 1,
@@ -50,12 +49,12 @@ const styles = StyleSheet.create({
   Searchbar: {
     borderRadius: 100,
     flex: 7,
-    height: '80%',
-    backgroundColor: color.lightBrown
+    height: "80%",
+    backgroundColor: color.lightBrown,
   },
   cart: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default nevBar;

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
 import Navbar from "../components/Navbar";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
@@ -34,25 +40,23 @@ const StoreScreen = (props) => {
 
   _renderItem = ({ item, index }) => {
     return (
-      <View
+      <KeyboardAvoidingView
         style={{
           backgroundColor: "floralwhite",
           borderRadius: 5,
-          height: 250,
+          height: 300,
           padding: 50,
-          marginLeft: 25,
-          marginRight: 25,
         }}
       >
         <Text style={{ fontSize: 30 }}>{item.title}</Text>
         <Text>{item.text}</Text>
-      </View>
+      </KeyboardAvoidingView>
     );
   };
 
   Paginations = () => {
     return (
-      <View>
+      <KeyboardAvoidingView>
         <Pagination
           dotsLength={carouselItems.length}
           activeDotIndex={activeIndex}
@@ -71,31 +75,35 @@ const StoreScreen = (props) => {
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Navbar />
-      <View style={styles.box}>
+      <KeyboardAvoidingView style={styles.box}>
         <Text style={styles.Header}>Featured</Text>
-        <View style={{ marginTop: 35 }}>
+        <KeyboardAvoidingView>
           <Carousel
             layout={"stack"}
             data={carouselItems}
-            sliderWidth={300}
+            sliderWidth={1000}
             itemWidth={300}
+            itemHeight={150}
             renderItem={_renderItem}
             onSnapToItem={(index) => setActiveIndex(index)}
           />
           <Paginations />
-        </View>
-      </View>
-      <View style={styles.box2}>
-        <Text>test</Text>
-      </View>
-    </View>
+        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+      <KeyboardAvoidingView style={styles.box2}>
+        <Text style={{ paddingLeft: 20, fontSize: 20, marginBottom: 10 }}>
+          You May Like
+        </Text>
+        <Text>Test</Text>
+      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -116,6 +124,7 @@ const styles = StyleSheet.create({
   Header: {
     fontSize: 30,
     fontWeight: "bold",
+    paddingBottom: 5,
   },
   box2: {
     flex: 2,
