@@ -4,10 +4,14 @@ import {
   Text,
   View,
   Image,
-  KeyboardAvoidingView,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 import Navbar from "../components/Navbar";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+
+const window = Dimensions.get("window");
 
 const StoreScreen = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -40,7 +44,7 @@ const StoreScreen = (props) => {
 
   _renderItem = ({ item, index }) => {
     return (
-      <KeyboardAvoidingView
+      <View
         style={{
           backgroundColor: "floralwhite",
           borderRadius: 5,
@@ -50,13 +54,13 @@ const StoreScreen = (props) => {
       >
         <Text style={{ fontSize: 30 }}>{item.title}</Text>
         <Text>{item.text}</Text>
-      </KeyboardAvoidingView>
+      </View>
     );
   };
 
   Paginations = () => {
     return (
-      <KeyboardAvoidingView>
+      <View>
         <Pagination
           dotsLength={carouselItems.length}
           activeDotIndex={activeIndex}
@@ -75,41 +79,52 @@ const StoreScreen = (props) => {
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
-      </KeyboardAvoidingView>
+      </View>
     );
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
       <Navbar />
-      <KeyboardAvoidingView style={styles.box}>
-        <Text style={styles.Header}>Featured</Text>
-        <KeyboardAvoidingView>
-          <Carousel
-            layout={"stack"}
-            data={carouselItems}
-            sliderWidth={1000}
-            itemWidth={300}
-            itemHeight={150}
-            renderItem={_renderItem}
-            onSnapToItem={(index) => setActiveIndex(index)}
-          />
-          <Paginations />
-        </KeyboardAvoidingView>
-      </KeyboardAvoidingView>
-      <KeyboardAvoidingView style={styles.box2}>
-        <Text style={{ paddingLeft: 20, fontSize: 20, marginBottom: 10 }}>
-          You May Like
-        </Text>
-        <Text>Test</Text>
-      </KeyboardAvoidingView>
-    </KeyboardAvoidingView>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <View style={styles.box}>
+            <Text style={styles.Header}>Featured</Text>
+            <View>
+              <Carousel
+                layout={"stack"}
+                data={carouselItems}
+                sliderWidth={1000}
+                itemWidth={300}
+                itemHeight={150}
+                renderItem={_renderItem}
+                onSnapToItem={(index) => setActiveIndex(index)}
+              />
+              <Paginations />
+            </View>
+          </View>
+          <View style={styles.box2}>
+            <Text style={{ paddingLeft: 20, fontSize: 20, marginBottom: 10 }}>
+              You May Like
+            </Text>
+            <Carousel
+              layout={"default"}
+              data={carouselItems}
+              sliderWidth={window.width}
+              itemWidth={200}
+              renderItem={_renderItem}
+              onSnapToItem={(index) => setActiveIndex(index)}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 9,
     backgroundColor: "#DBCBBD",
     width: "100%",
     height: "100%",
@@ -129,6 +144,7 @@ const styles = StyleSheet.create({
   box2: {
     flex: 2,
     marginTop: 30,
+    marginBottom: 30,
   },
 });
 
