@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/:id/add", async (req, res) => {
   try {
-    let [all, created] = await models.cart.findOrCreate({
+    let [cart, created] = await models.cart.findOrCreate({
       where: {
         id: req.params.id,
       },
@@ -40,22 +40,21 @@ router.post("/:id/add", async (req, res) => {
         UserId: req.params.id,
       },
     });
-    console.log(created);
-    if (created) {
-      all.addBooks(req.body.book);
-      res.send({
-        statusCode: 200,
-        message: "Book Add",
-        data: all,
-      });
-    } else {
-      all.addBooks(req.body.book);
-      res.send({
-        statusCode: 200,
-        message: "Book Add",
-        data: all,
-      });
-    }
+
+    let books = req.body.books;
+
+    await cart.setBooks(books);
+
+    let result = await models.cart.findByPk(cart.id, {
+      include: [models.book]
+    })
+
+    res.sendStatus(200).send({
+      statusCode: 200,
+      message: 'OK',
+      data: result
+    })
+
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
