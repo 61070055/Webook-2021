@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image, SafeAreaView, ScrollView, Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import color from '../utils/color'
 import { Text, Button } from 'react-native-elements';
+import color from '../utils/color'
 
 import Navbar from "../components/Navbar";
 
