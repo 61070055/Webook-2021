@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -41,6 +41,20 @@ const StoreScreen = (props) => {
       text: "Text 6",
     },
   ]);
+  const [Profile, setProfile] = useState([]);
+
+  const User = props.navigation.getParam("user");
+
+  console.log(User);
+
+  // console.log(UserId);
+
+  // axios.get("http://3.113.31.126:3000/user/" + UserId + "/").then((res) => {
+  //   // console.log(res.data);
+  //   setProfile(res.data.data);
+  // });
+
+  // console.log(Profile);
 
   _renderItem = ({ item, index }) => {
     return (

@@ -1,10 +1,50 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
 const SignInScreen = (props) => {
-  const [text, setText] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("Admin@hotmail.com");
+  const [password, setPassword] = useState("1150");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    let body = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://3.113.31.126:3000/user/login", body)
+      .then((res) => {
+        // console.log(res);
+        // console.log(res.data);
+
+        if (res.data.statusCode === 200) {
+          props.navigation.navigate("Store", { user: res.data.data });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        setError("Wrong Email Or Password!");
+      });
+
+    // console.log(result);
+
+    // try {
+    //   let result = await axios.post(
+    //     "http://3.113.31.126:3000/user/login",
+    //     body
+    //   );
+
+    //   if (result.data.statusCode === 200) {
+    //     props.navigation.navigate("Store", { user: result.data.data });
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    //   setError("Wrong Email Or Password!");
+    // }
+  };
 
   return (
     <View style={styles.container}>
@@ -16,8 +56,8 @@ const SignInScreen = (props) => {
           style={styles.text_field}
           theme={{ colors: { primary: "#000000" } }}
           label="Email"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={email}
+          onChangeText={(email) => setEmail(email)}
         />
         <TextInput
           style={styles.text_field}
@@ -30,10 +70,12 @@ const SignInScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => props.navigation.navigate("Store")}
+          // onPress={() => props.navigation.navigate("Store")}
+          onPress={() => handleLogin()}
         >
           Login
         </Button>
+        <Text style={styles.error}>{error}</Text>
         <Text
           style={{ color: "gray", marginBottom: 30 }}
           onPress={() => console.log(".....")}
@@ -84,6 +126,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 30,
     margin: 10,
+  },
+  error: {
+    fontSize: 20,
+    color: "red",
   },
   // other: {
   //   // height: "10%",
