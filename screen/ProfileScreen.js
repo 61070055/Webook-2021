@@ -18,6 +18,8 @@ import color from "../utils/color";
 import Navbar from "../components/Navbar";
 import * as ImagePicker from "expo-image-picker";
 import { TextInput, Button } from "react-native-paper";
+import ImgToBase64 from 'react-native-image-base64';
+
 
 const window = Dimensions.get("window");
 
@@ -25,32 +27,35 @@ const ProfileScreen = (props) => {
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (Platform.OS !== "web") {
+  //       const { status } =
+  //         await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       if (status !== "granted") {
+  //         alert("Sorry, we need camera roll permissions to make this work!");
+  //       }
+  //     }
+  //   })();
+  // }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-      console.log(result.uri);
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        base64: true
+      });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        console.log(result);
+      }
+    } catch (e) {
+      console.log(e)
     }
+
   };
   return (
     <View style={styles.container}>
