@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -43,6 +43,23 @@ const BookDetail = (props) => {
       text: "Text 6",
     },
   ]);
+
+  const Book = props.navigation.getParam("book");
+  const [Genres, setGenres] = useState([]);
+
+  useEffect(() => {
+    function fatchData() {
+      setGenres(
+        Book.Genres.map((g) => {
+          return g.name;
+        })
+      );
+    }
+    fatchData();
+  }, []);
+
+  // console.log(props);
+  // console.log("Test: ", Genres.join(" · "));
 
   _renderItem = ({ item, index }) => {
     return (
@@ -97,7 +114,9 @@ const BookDetail = (props) => {
             <View style={styles.lastRead}>
               <View style={{ flex: 1, marginRight: 5 }}>
                 <Image
-                  source={require("../assets/cover-placeholder.jpg")}
+                  source={{
+                    uri: Book.cover,
+                  }}
                   resizeMode={"center"}
                   style={{
                     width: "90%",
@@ -109,9 +128,7 @@ const BookDetail = (props) => {
                 />
               </View>
               <View style={{ flex: 1, marginLeft: 5, flexDirection: "column" }}>
-                <Text style={styles.lastReadBookName}>
-                  Harry Potter och De Vises sten
-                </Text>
+                <Text style={styles.lastReadBookName}>{Book.name}</Text>
                 <Text
                   style={{
                     textAlign: "center",
@@ -120,7 +137,7 @@ const BookDetail = (props) => {
                     marginBottom: "100%",
                   }}
                 >
-                  Fantasy · Adventure
+                  {Genres.join(" · ")}
                 </Text>
                 <Text
                   h3
@@ -130,7 +147,7 @@ const BookDetail = (props) => {
                     textAlign: "center",
                   }}
                 >
-                  699 THB.
+                  {Book.price} THB.
                 </Text>
                 <Button
                   title="Add To Cart"
@@ -144,13 +161,7 @@ const BookDetail = (props) => {
             </View>
           </View>
           {/* Recently Read Book*/}
-          <Text style={{ margin: 15 }}>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.
-          </Text>
+          <Text style={{ margin: 15 }}>{Book.description}</Text>
           <View style={{ flex: 1 }}>
             <Text h3 style={styles.headerText}>
               {" "}

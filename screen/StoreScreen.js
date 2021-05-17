@@ -7,45 +7,42 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import Navbar from "../components/Navbar";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import axios from "axios";
 
 const window = Dimensions.get("window");
 
 const StoreScreen = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [carouselItems, setCarouselItems] = useState([
-    {
-      title: "Test",
-      text: "Text 1",
-    },
-    {
-      title: "Item 2",
-      text: "Text 2",
-    },
-    {
-      title: "Test",
-      text: "Text 3",
-    },
-    {
-      title: "Item 4",
-      text: "Text 4",
-    },
-    {
-      title: "Test",
-      text: "Text 5",
-    },
-    {
-      title: "Item 6",
-      text: "Text 6",
-    },
-  ]);
+  // const [carouselItems, setCarouselItems] = useState([
+  //   {
+  //     img: "Test",
+  // ]);
   const [Profile, setProfile] = useState([]);
+  const [Books, setBooks] = useState([]);
 
   const User = props.navigation.getParam("user");
 
-  console.log(User);
+  useEffect(() => {
+    function setUserData() {
+      setProfile(User);
+    }
+
+    function fatchData() {
+      axios.get("http://3.113.31.126:3000/book").then((res) => {
+        // console.log(res.data.data);
+        setBooks(res.data.data);
+      });
+    }
+
+    setUserData();
+    fatchData();
+  }, []);
+
+  // console.log(Profile);
 
   // console.log(UserId);
 
@@ -54,21 +51,30 @@ const StoreScreen = (props) => {
   //   setProfile(res.data.data);
   // });
 
-  // console.log(Profile);
+  // console.log("this Profile is :", Profile);
+  // console.log("this Books is :", Books);
 
   _renderItem = ({ item, index }) => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: "floralwhite",
-          borderRadius: 5,
+          borderRadius: 10,
           height: 300,
-          padding: 50,
         }}
+        onPress={() => props.navigation.navigate("Detail", { book: item })}
       >
-        <Text style={{ fontSize: 30 }}>{item.title}</Text>
-        <Text>{item.text}</Text>
-      </View>
+        <Image
+          source={{
+            uri: item.cover,
+          }}
+          style={{
+            height: "100%",
+            width: "100%",
+            borderRadius: 10,
+          }}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -76,7 +82,7 @@ const StoreScreen = (props) => {
     return (
       <View>
         <Pagination
-          dotsLength={carouselItems.length}
+          dotsLength={Books.length}
           activeDotIndex={activeIndex}
           containerStyle={{ backgroundColor: "#DBCBBD" }}
           dotStyle={{
@@ -107,7 +113,7 @@ const StoreScreen = (props) => {
             <View>
               <Carousel
                 layout={"stack"}
-                data={carouselItems}
+                data={Books}
                 sliderWidth={1000}
                 itemWidth={300}
                 itemHeight={150}
@@ -123,7 +129,7 @@ const StoreScreen = (props) => {
             </Text>
             <Carousel
               layout={"default"}
-              data={carouselItems}
+              data={Books}
               sliderWidth={window.width}
               itemWidth={200}
               renderItem={_renderItem}

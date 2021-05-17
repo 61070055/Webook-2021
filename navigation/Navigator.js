@@ -32,7 +32,6 @@ const AppNavigator = createDrawerNavigator(
     Library: LibraryScreen,
     Store: StoreScreen,
     Profile: ProfileScreen,
-    Detail: BookDetail,
   },
   {
     style: styles.drawer,
@@ -53,6 +52,7 @@ const MyNavigator = createStackNavigator(
     SignUp: SignupScreen,
     Checkout: CheckoutScreen,
     Reader: ReaderScreen,
+    Detail: BookDetail,
     App: AppNavigator,
   },
   {
