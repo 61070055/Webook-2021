@@ -4,6 +4,15 @@ const { isWishlist } = require("../../library/model/Library");
 const { hashPassword, genRandomString } = require("../../utils/hash");
 const router = require("express").Router();
 
+// Setup S3
+const AWS = require('aws-sdk');
+AWS.config = {
+  "accessKeyId": process.env.S3_ACCESS_KEY,
+  "secretAccessKey": process.env.S3_SECRET_KEY,
+  "region": "ap-southeast-1"
+}
+const s3Bucket = new AWS.S3({ params: { Bucket: 'webook-book' } });
+
 const models = db.models;
 
 router.get("/:id", async (req, res) => {
@@ -50,7 +59,7 @@ router.post("/register", async (req, res) => {
 router.post('/login', async () => {
   try {
     let { email, password } = req.body
-    
+
     let user = await models.user.findOne({
       where: {
         email: email
@@ -303,5 +312,25 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.post('/image/:id', async (req, res) => {
+  buffer = Buffer.from(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""), 'base64')
+  let data = {
+    Key: req.params.id,
+    Body: buffer,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg'
+  };
+  s3Bucket.putObject(data, function (err, data) {
+    if (err) {
+      res.sendStatus(500)
+      console.log(err);
+      console.log('Error uploading data: ', data);
+    } else {
+      res.sendStatus(200)
+      console.log('successfully uploaded the image!');
+    }
+  });
+})
 
 module.exports = router;

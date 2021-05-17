@@ -12,7 +12,7 @@ const cartController = require("./cart/controller/cartController");
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}));
 
 app.use("/user", userController);
 app.use("/genre", genreController);
