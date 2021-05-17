@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Image, SafeAreaView, ScrollView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import { Text, Button } from 'react-native-elements';
-import color from '../utils/color'
+import { Text, Button } from "react-native-elements";
+import color from "../utils/color";
 
 import Navbar from "../components/Navbar";
 
 const window = Dimensions.get("window");
 
 const LibraryScreen = (props) => {
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [carouselItems, setCarouselItems] = useState([
     {
@@ -86,25 +92,43 @@ const LibraryScreen = (props) => {
       <Navbar />
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.library}>
-
           {/* Last Read Book*/}
           <View style={{ flex: 1 }}>
             <View style={styles.lastRead}>
               <View style={{ flex: 1, marginRight: 5 }}>
                 <Image
-                  source={require('../assets/cover-placeholder.jpg')}
-                  resizeMode={'center'}
-                  style={{ width: '90%', height: '80%', marginTop: '10%', marginBottom: '10%', borderRadius: 10 }}
+                  source={require("../assets/cover-placeholder.jpg")}
+                  resizeMode={"center"}
+                  style={{
+                    width: "90%",
+                    height: "80%",
+                    marginTop: "10%",
+                    marginBottom: "10%",
+                    borderRadius: 10,
+                  }}
                 />
               </View>
-              <View style={{ flex: 1, marginLeft: 5, flexDirection: 'column' }}>
+              <View style={{ flex: 1, marginLeft: 5, flexDirection: "column" }}>
                 <Text style={styles.lastReadBookName}>
                   Harry Potter och De Vises sten
                 </Text>
-                <Text style={{ textAlign: 'center', fontSize: 10, color: 'white', marginBottom: '100%' }}>Fantasy · Adventure</Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 10,
+                    color: "white",
+                    marginBottom: "100%",
+                  }}
+                >
+                  Fantasy · Adventure
+                </Text>
                 <Button
-                  title='Continue Reading'
-                  buttonStyle={{ backgroundColor: color.lightBrown, borderRadius: 10 }}
+                  title="Continue Reading"
+                  buttonStyle={{
+                    backgroundColor: color.lightBrown,
+                    borderRadius: 10,
+                  }}
+                  onPress={() => props.navigation.navigate("Reader")}
                 />
                 {/* <Text style={{alignSelf: 'flex-end', textAlign: 'center', fontSize: 10}}>Fantasy · Adventure</Text> */}
               </View>
@@ -112,7 +136,10 @@ const LibraryScreen = (props) => {
           </View>
           {/* Favorite */}
           <View style={{ flex: 1 }}>
-            <Text h3 style={styles.headerText}> Favorite </Text>
+            <Text h3 style={styles.headerText}>
+              {" "}
+              Favorite{" "}
+            </Text>
             <Carousel
               layout={"default"}
               data={carouselItems}
@@ -126,7 +153,10 @@ const LibraryScreen = (props) => {
 
           {/* Recently Read Book*/}
           <View style={{ flex: 1 }}>
-            <Text h3 style={styles.headerText}> Recent Book </Text>
+            <Text h3 style={styles.headerText}>
+              {" "}
+              Recent Book{" "}
+            </Text>
             <Carousel
               layout={"default"}
               data={carouselItems}
@@ -147,13 +177,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 9,
     backgroundColor: "#DBCBBD",
-    fontFamily: 'kanit-regular'
+    fontFamily: "kanit-regular",
   },
   library: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   lastRead: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
     margin: 20,
     backgroundColor: color.brown,
@@ -170,16 +200,16 @@ const styles = StyleSheet.create({
   },
   lastReadBookName: {
     fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     borderBottomColor: "white",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    color: 'white'
+    color: "white",
   },
 
   headerText: {
-    margin: 5
-  }
+    margin: 5,
+  },
 });
 
 export default LibraryScreen;
