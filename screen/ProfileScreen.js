@@ -106,7 +106,7 @@ const ProfileScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => console.log("Register")}
+          onPress={() => console.log("Confirm")}
         >
           Register
         </Button>
