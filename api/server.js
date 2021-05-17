@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 // Controller
 const userController = require("./user/controller/userController");
@@ -12,6 +13,7 @@ const cartController = require("./cart/controller/cartController");
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
 app.use("/user", userController);
