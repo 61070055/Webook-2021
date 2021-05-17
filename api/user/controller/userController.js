@@ -324,7 +324,7 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
         },
         include: [models.book],
       });
-      await use.setBooks(book, {
+      await use.addBooks(book, {
         through: {
           isWishlist: true,
         },

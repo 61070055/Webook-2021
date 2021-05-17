@@ -18,14 +18,37 @@ import color from "../utils/color";
 import Navbar from "../components/Navbar";
 import * as ImagePicker from "expo-image-picker";
 import { TextInput, Button } from "react-native-paper";
-import ImgToBase64 from 'react-native-image-base64';
-
+import ImgToBase64 from "react-native-image-base64";
+import axios from "axios";
 
 const window = Dimensions.get("window");
 
 const ProfileScreen = (props) => {
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    function getUser() {
+      axios.get("http://3.113.31.126:3000/user/2").then((res) => {
+        setUser(res.data.data);
+      });
+    }
+    getUser();
+  }, []);
+  console.log(user);
+
+  // axios
+  //   .get("http://3.113.31.126:3000/user/2")
+  //   .then((response) => {
+  //     console.log("axios got");
+  //     setUser(response);
+  //     console.log(user);
+  //     // do something about response
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 
   // useEffect(() => {
   //   (async () => {
@@ -46,16 +69,15 @@ const ProfileScreen = (props) => {
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-        base64: true
+        base64: true,
       });
       if (!result.cancelled) {
         setImage(result.uri);
-        console.log(result);
+        // console.log(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-
   };
   return (
     <View style={styles.container}>
@@ -111,7 +133,19 @@ const ProfileScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => console.log("Confirm")}
+          onPress={() => {
+            // axios
+            //   .post("http://localhost:3000/user/image/1", {
+            //     imageBinary: "xxxxxxxxxxxx",
+            //   })
+            //   .then((res) => {
+            //     console.log("response: ", response);
+            //     // do something about response
+            //   })
+            //   .catch(() => {
+            //     console.error("error");
+            //   });
+          }}
         >
           Register
         </Button>
