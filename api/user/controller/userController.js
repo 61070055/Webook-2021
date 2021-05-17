@@ -5,13 +5,13 @@ const { hashPassword, genRandomString } = require("../../utils/hash");
 const router = require("express").Router();
 
 // Setup S3
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 AWS.config = {
-  "accessKeyId": process.env.S3_ACCESS_KEY,
-  "secretAccessKey": process.env.S3_SECRET_KEY,
-  "region": "ap-southeast-1"
-}
-const s3Bucket = new AWS.S3({ params: { Bucket: 'webook-book' } });
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  secretAccessKey: process.env.S3_SECRET_KEY,
+  region: "ap-southeast-1",
+};
+const s3Bucket = new AWS.S3({ params: { Bucket: "webook-book" } });
 
 const models = db.models;
 
@@ -51,20 +51,20 @@ router.post("/register", async (req, res) => {
       data: user,
     });
   } catch (e) {
-    console.error(e)
-    res.sendStatus(500)
+    console.error(e);
+    res.sendStatus(500);
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    let { email, password } = req.body
+    let { email, password } = req.body;
 
     let user = await models.user.findOne({
       where: {
-        email: email
-      }
-    })
+        email: email,
+      },
+    });
 
     if (user.password === hashPassword(password, user.salt)) {
       res.send({
@@ -77,18 +77,17 @@ router.post('/login', async (req, res) => {
           lastName: user.lastname,
           profilePicture: user.profilePicture,
           createdAt: user.createdAt,
-          updatedAt: user.updatedAt
+          updatedAt: user.updatedAt,
         },
       });
     } else {
-      res.sendStatus(400)
+      res.sendStatus(400);
     }
-
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
   }
-})
+});
 
 router.patch("/change-password/:id", async (req, res) => {
   try {
@@ -185,6 +184,36 @@ router.get("/:id/wishlist", async (req, res) => {
   }
 });
 
+router.get("/:id/library", async (req, res) => {
+  try {
+    let user = await models.user.findOne({
+      include: [
+        {
+          model: models.book,
+          through: {
+            where: {
+              isWishlist: false,
+            },
+          },
+        },
+      ],
+    });
+
+    if (user) {
+      res.send({
+        statusCode: 200,
+        message: "OK",
+        data: user,
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500);
+  }
+});
+
 router.post("/:id/wishlist/add/:BookId", async (req, res) => {
   try {
     let user = await models.user.findOne({
@@ -192,7 +221,7 @@ router.post("/:id/wishlist/add/:BookId", async (req, res) => {
         id: req.params.id,
       },
     });
-    await user.addBook(req.params.BookId, { through: { isWishlist: false } });
+    await user.addBook(req.params.BookId, { through: { isWishlist: true } });
     let data = await models.user.findOne({
       where: {
         id: req.params.id,
@@ -265,8 +294,6 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
       },
     });
     let isHas = await user.hasBook(book);
-    // console.log(isHas);
-    // console.log(user);
     if (isHas === false) {
       let use = await models.user.findOne({
         where: {
@@ -290,7 +317,7 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
           include: [models.book],
         }),
       });
-    } else if (isHas === true) {
+    } else {
       let use = await models.user.findOne({
         where: {
           id: req.params.id,
@@ -313,11 +340,6 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
           include: [models.book],
         }),
       });
-    } else {
-      res.send({
-        statusCode: 200,
-        message: "U R FKING IDIOT",
-      });
     }
   } catch (e) {
     console.error(e);
@@ -325,24 +347,27 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
   }
 });
 
-router.post('/image/:id', async (req, res) => {
-  buffer = Buffer.from(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""), 'base64')
+router.post("/image/:id", async (req, res) => {
+  buffer = Buffer.from(
+    req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
   let data = {
     Key: req.params.id,
     Body: buffer,
-    ContentEncoding: 'base64',
-    ContentType: 'image/jpeg'
+    ContentEncoding: "base64",
+    ContentType: "image/jpeg",
   };
   s3Bucket.putObject(data, function (err, data) {
     if (err) {
-      res.sendStatus(500)
+      res.sendStatus(500);
       console.log(err);
-      console.log('Error uploading data: ', data);
+      console.log("Error uploading data: ", data);
     } else {
-      res.sendStatus(200)
-      console.log('successfully uploaded the image!');
+      res.sendStatus(200);
+      console.log("successfully uploaded the image!");
     }
   });
-})
+});
 
 module.exports = router;
