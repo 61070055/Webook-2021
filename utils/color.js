@@ -1,8 +1,8 @@
 const color = {
     darkBrown: '#290001',
-    brown: '#C87941',
-    lightBrown: '#DBCBBD',
-    white: '#FFFFFF'
+    brown: '#87431D',
+    lightBrown: '#C87941',
+    white: '#DBCBBD'
 }
 
 export default color
