@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     flex: 7,
     height: '80%',
-    backgroundColor: color.lightBrown
+    backgroundColor: color.white
   },
   cart: {
     flex: 1
