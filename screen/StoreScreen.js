@@ -62,7 +62,12 @@ const StoreScreen = (props) => {
           borderRadius: 10,
           height: 300,
         }}
-        onPress={() => props.navigation.navigate("Detail", { book: item })}
+        onPress={() =>
+          props.navigation.navigate("Detail", {
+            book: item,
+            UserId: Profile.id,
+          })
+        }
       >
         <Image
           source={{

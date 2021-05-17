@@ -12,6 +12,7 @@ import { Text, Button } from "react-native-elements";
 import color from "../utils/color";
 
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 const window = Dimensions.get("window");
 
@@ -45,7 +46,36 @@ const BookDetail = (props) => {
   ]);
 
   const Book = props.navigation.getParam("book");
+  const UserId = props.navigation.getParam("UserId");
+
   const [Genres, setGenres] = useState([]);
+  const [Carts, setCarts] = useState([]);
+  const [Message, setMessage] = useState("");
+
+  const Carthandle = () => {
+    axios.get("http://3.113.31.126:3000/cart/" + UserId + "/").then((res) => {
+      // console.log(res.data.data[0].Books);
+      let Old_Book = res.data.data[0].Books.map((b) => {
+        return b.id;
+      });
+      setCarts([...Old_Book, Book.id]);
+    });
+
+    let Body = {
+      books: Carts,
+    };
+    axios
+      .post("http://3.113.31.126:3000/cart/" + UserId + "/add", Body)
+      .then((res) => {
+        console.log("success");
+        setMessage("Success!");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  console.log(Carts);
 
   useEffect(() => {
     function fatchData() {
@@ -155,8 +185,17 @@ const BookDetail = (props) => {
                     backgroundColor: color.lightBrown,
                     borderRadius: 10,
                   }}
-                  onPress={() => console.log("Add.")}
+                  onPress={() => Carthandle()}
                 />
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: "green",
+                    paddingLeft: 50,
+                  }}
+                >
+                  {Message}
+                </Text>
               </View>
             </View>
           </View>
