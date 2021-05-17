@@ -22,7 +22,7 @@ const nevBar = (props) => {
           icon="cart"
           color={Colors.white}
           size={25}
-          onPress={() => console.log("Pressed")}
+          onPress={() => props.navigation.navigate("Checkout")}
           style={styles.cart}
         />
       </View>

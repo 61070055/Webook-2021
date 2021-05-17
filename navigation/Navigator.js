@@ -8,20 +8,21 @@ import LandingScreen from "../screen/LandingScreen";
 import SigninScreen from "../screen/SignInScreen";
 import SignupScreen from "../screen/SignUpScreen";
 import StoreScreen from "../screen/StoreScreen";
-import LibraryScreen from '../screen/LibraryScreen'
+import LibraryScreen from "../screen/LibraryScreen";
+import CheckoutScreen from "../screen/CheckoutScreen";
 
-import color from '../utils/color'
+import color from "../utils/color";
 
 const styles = StyleSheet.create({
   drawer: {
-    backgroundColor: color.lightBrown
+    backgroundColor: color.lightBrown,
   },
   drawerContent: {},
   labelStyle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
   },
-})
+});
 
 const AppNavigator = createDrawerNavigator(
   {
@@ -36,17 +37,17 @@ const AppNavigator = createDrawerNavigator(
       activeBackgroundColor: color.brown,
       labelStyle: styles.labelStyle,
     },
-    contentContainerStyle: styles.drawerContent
-
+    contentContainerStyle: styles.drawerContent,
   }
-)
+);
 
 const MyNavigator = createStackNavigator(
   {
     LandingPage: LandingScreen,
     SignIn: SigninScreen,
     SignUp: SignupScreen,
-    App: AppNavigator
+    Checkout: CheckoutScreen,
+    App: AppNavigator,
   },
   {
     defaultNavigationOptions: {
