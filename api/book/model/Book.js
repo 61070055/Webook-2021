@@ -27,6 +27,10 @@ const Book = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  source: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 };
 
 module.exports = Book;

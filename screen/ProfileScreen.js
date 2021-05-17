@@ -28,6 +28,13 @@ const ProfileScreen = (props) => {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
 
+  const handleEdit = () => {
+    let body = {
+      email: email,
+      profilePicture: image,
+    };
+  };
+
   useEffect(() => {
     function getUser() {
       axios.get("http://3.113.31.126:3000/user/2").then((res) => {
@@ -99,7 +106,7 @@ const ProfileScreen = (props) => {
           }}
         >
           <Image
-            source={require("../assets/icon.png")}
+            source={{ uri: user.profilePicture }}
             resizeMode="contain"
             style={{
               flex: 1,
