@@ -89,7 +89,7 @@ const LibraryScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Navbar />
+      <Navbar props={props} />
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.library}>
           {/* Last Read Book*/}

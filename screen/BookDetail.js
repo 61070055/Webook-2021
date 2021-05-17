@@ -89,7 +89,7 @@ const BookDetail = (props) => {
 
   return (
     <View style={styles.container}>
-      <Navbar />
+      <Navbar props={props} />
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.library}>
           {/* Last Read Book*/}
@@ -122,7 +122,14 @@ const BookDetail = (props) => {
                 >
                   Fantasy · Adventure
                 </Text>
-                <Text h3 h3Style={{color: 'white', marginBottom: 5, textAlign: 'center'}}>
+                <Text
+                  h3
+                  h3Style={{
+                    color: "white",
+                    marginBottom: 5,
+                    textAlign: "center",
+                  }}
+                >
                   699 THB.
                 </Text>
                 <Button
@@ -131,21 +138,23 @@ const BookDetail = (props) => {
                     backgroundColor: color.lightBrown,
                     borderRadius: 10,
                   }}
-                  onPress={() => props.navigation.navigate("Reader")}
+                  onPress={() => console.log("Add.")}
                 />
               </View>
             </View>
           </View>
           {/* Recently Read Book*/}
           <Text style={{ margin: 15 }}>
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            It has survived not only five centuries, but also the leap into electronic typesetting,
+            Lorem Ipsum has been the industry's standard dummy text ever since
+            the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book. It has survived not only
+            five centuries, but also the leap into electronic typesetting,
             remaining essentially unchanged.
           </Text>
           <View style={{ flex: 1 }}>
             <Text h3 style={styles.headerText}>
-              {" "}More Like This{" "}
+              {" "}
+              More Like This{" "}
             </Text>
             <Carousel
               layout={"default"}

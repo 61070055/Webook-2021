@@ -85,7 +85,7 @@ const StoreScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Navbar />
+      <Navbar props={props} />
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <View style={styles.box}>
