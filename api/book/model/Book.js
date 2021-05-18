@@ -27,6 +27,10 @@ const Book = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  url: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  }
 };
 
 module.exports = Book;
