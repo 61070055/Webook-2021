@@ -187,7 +187,7 @@ router.get("/:id/wishlist", async (req, res) => {
 router.get("/:id/library", async (req, res) => {
   try {
     let user = await models.user.findOne({
-      where: {id: req.params.id},
+      where: { id: req.params.id },
       include: [
         {
           model: models.book,

@@ -27,12 +27,23 @@ const ProfileScreen = (props) => {
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
+  const [userImg, setUseimage] = useState(null);
 
   const handleEdit = () => {
+    // console.log("This is base64");
     let body = {
-      email: email,
-      profilePicture: image,
+      imageBinary: "data:image/png;base64," + userImg,
     };
+    axios
+      .post("http://3.113.31.126:3000/user/image/2", body)
+      .then((res) => {
+        console.log(res);
+        props.navigation.navigate("Store");
+      })
+      .catch((e) => {
+        console.log(e);
+        setError("Something went wrong!");
+      });
   };
 
   useEffect(() => {
@@ -45,30 +56,6 @@ const ProfileScreen = (props) => {
   }, []);
   console.log(user);
 
-  // axios
-  //   .get("http://3.113.31.126:3000/user/2")
-  //   .then((response) => {
-  //     console.log("axios got");
-  //     setUser(response);
-  //     console.log(user);
-  //     // do something about response
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (Platform.OS !== "web") {
-  //       const { status } =
-  //         await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== "granted") {
-  //         alert("Sorry, we need camera roll permissions to make this work!");
-  //       }
-  //     }
-  //   })();
-  // }, []);
-
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,7 +67,7 @@ const ProfileScreen = (props) => {
       });
       if (!result.cancelled) {
         setImage(result.uri);
-        // console.log(result);
+        setUseimage(result.base64);
       }
     } catch (e) {
       console.log(e);
@@ -93,7 +80,7 @@ const ProfileScreen = (props) => {
         <Text style={styles.header}>Account Setting</Text>
         <TouchableOpacity
           onPress={pickImage}
-          activeOpacity={1} // default is .2
+          activeOpacity={1}
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -106,7 +93,9 @@ const ProfileScreen = (props) => {
           }}
         >
           <Image
-            source={{ uri: user.profilePicture }}
+            source={{
+              uri: "https://webook-book.s3-ap-southeast-1.amazonaws.com/2",
+            }}
             resizeMode="contain"
             style={{
               flex: 1,
@@ -140,19 +129,7 @@ const ProfileScreen = (props) => {
         <Button
           style={styles.button}
           mode="contained"
-          onPress={() => {
-            // axios
-            //   .post("http://localhost:3000/user/image/1", {
-            //     imageBinary: "xxxxxxxxxxxx",
-            //   })
-            //   .then((res) => {
-            //     console.log("response: ", response);
-            //     // do something about response
-            //   })
-            //   .catch(() => {
-            //     console.error("error");
-            //   });
-          }}
+          onPress={() => handleEdit()}
         >
           Register
         </Button>
@@ -165,7 +142,6 @@ const styles = StyleSheet.create({
   text_field2: {
     backgroundColor: "#DBCBBD",
     width: "90%",
-    // margin: 5,
     marginHorizontal: "5%",
   },
   text_field: {
