@@ -187,6 +187,7 @@ router.get("/:id/wishlist", async (req, res) => {
 router.get("/:id/library", async (req, res) => {
   try {
     let user = await models.user.findOne({
+      where: {id: req.params.id},
       include: [
         {
           model: models.book,
@@ -326,7 +327,7 @@ router.patch("/:id/library/add/:BookId", async (req, res) => {
       });
       await use.addBooks(book, {
         through: {
-          isWishlist: true,
+          isWishlist: false,
         },
       });
       console.log(use);

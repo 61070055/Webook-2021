@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,10 +6,12 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  TouchableOpacity
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Text, Button } from "react-native-elements";
 import color from "../utils/color";
+import axios from "axios";
 
 import Navbar from "../components/Navbar";
 
@@ -17,48 +19,47 @@ const window = Dimensions.get("window");
 
 const LibraryScreen = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [carouselItems, setCarouselItems] = useState([
-    {
-      title: "Test",
-      text: "Text 1",
-    },
-    {
-      title: "Item 2",
-      text: "Text 2",
-    },
-    {
-      title: "Test",
-      text: "Text 3",
-    },
-    {
-      title: "Item 4",
-      text: "Text 4",
-    },
-    {
-      title: "Test",
-      text: "Text 5",
-    },
-    {
-      title: "Item 6",
-      text: "Text 6",
-    },
-  ]);
+  const [Books, setBooks] = useState([]);
+
+
+  useEffect(() => {
+
+    function fatchData() {
+      axios.get("http://3.113.31.126:3000/user/2/library").then((res) => {
+        console.log(res.data.data.Books)
+        setBooks(res.data.data.Books)
+      });
+    }
+
+    fatchData();
+  }, []);
 
   _renderItem = ({ item, index }) => {
+    console.log(item)
     return (
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: "floralwhite",
-          borderRadius: 5,
-          height: 250,
-          padding: 50,
-          marginLeft: 25,
-          marginRight: 0,
+          borderRadius: 10,
+          height: 300,
         }}
+        onPress={() =>
+          props.navigation.navigate("Reader", {
+            url: item.url
+          })
+        }
       >
-        <Text style={{ fontSize: 30 }}>{item.title}</Text>
-        <Text>{item.text}</Text>
-      </View>
+        <Image
+          source={{
+            uri: item.cover,
+          }}
+          style={{
+            height: "100%",
+            width: "100%",
+            borderRadius: 10,
+          }}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -66,7 +67,7 @@ const LibraryScreen = (props) => {
     return (
       <View>
         <Pagination
-          dotsLength={carouselItems.length}
+          dotsLength={Books.length}
           activeDotIndex={activeIndex}
           containerStyle={{ backgroundColor: "#DBCBBD" }}
           dotStyle={{
@@ -138,11 +139,11 @@ const LibraryScreen = (props) => {
           <View style={{ flex: 1 }}>
             <Text h3 style={styles.headerText}>
               {" "}
-              Favorite{" "}
+              My BooK{" "}
             </Text>
             <Carousel
               layout={"default"}
-              data={carouselItems}
+              data={Books}
               sliderWidth={window.width}
               itemWidth={200}
               renderItem={_renderItem}
@@ -152,21 +153,21 @@ const LibraryScreen = (props) => {
           </View>
 
           {/* Recently Read Book*/}
-          <View style={{ flex: 1 }}>
+          {/* <View style={{ flex: 1 }}>
             <Text h3 style={styles.headerText}>
               {" "}
               Recent Book{" "}
             </Text>
             <Carousel
               layout={"default"}
-              data={carouselItems}
+              data={Book}
               sliderWidth={window.width}
               itemWidth={200}
               renderItem={_renderItem}
               onSnapToItem={(index) => setActiveIndex(index)}
             />
             <Paginations />
-          </View>
+          </View> */}
         </ScrollView>
       </SafeAreaView>
     </View>

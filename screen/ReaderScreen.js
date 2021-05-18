@@ -12,10 +12,13 @@ import {
 import PDFReader from "rn-pdf-reader-js";
 
 const ReaderScreen = (props) => {
+
+  const url = props.navigation.getParam("url");
+  // console.log(props)
   return (
     <PDFReader
       source={{
-        uri: "https://webook-book.s3-ap-southeast-1.amazonaws.com/book.pdf",
+        uri: url,
       }}
     />
   );
