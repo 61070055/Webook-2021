@@ -1,83 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Image,
   SafeAreaView,
-  ScrollView,
-  Dimensions,
   FlatList,
-  StatusBar,
+  TouchableOpacity,
 } from "react-native";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Text, Button } from "react-native-elements";
 import color from "../utils/color";
+import axios from "axios";
 
 import Navbar from "../components/Navbar";
 
-const window = Dimensions.get("window");
-
 const CheckoutScreen = (props) => {
-  const [use, setUse] = useState([
-    {
-      key: "1",
-      title: "1 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "2",
-      title: "2 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "3",
-      title: "3 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "4",
-      title: "4 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "5",
-      title: "5 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "6",
-      title: "6 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "7",
-      title: "7 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "8",
-      title: "8 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-    {
-      key: "9",
-      title: "9 Harry Potter och De Vises Sten",
-      price: "69 THB.",
-    },
-  ]);
+  const [Profile, setProfile] = useState([]);
+  const [Book, setBook] = useState([]);
+
+  // console.log(Book[1].name);
+
+  useEffect(() => {
+    function getUserData() {
+      axios.get("http://3.113.31.126:3000/user/2").then((res) => {
+        // console.log(res.data.data);
+        setProfile(res.data.data);
+      });
+    }
+
+    function fatchData() {
+      axios
+        .get("http://3.113.31.126:3000/cart/" + Profile.id + "/")
+        .then((res) => {
+          // console.log(res.data.data[0].Books);
+          let All_book = res.data.data[0].Books.map((b) => {
+            return b;
+          });
+          // console.log("this is All: ", All_book);
+          setBook(All_book);
+        });
+    }
+
+    getUserData();
+    fatchData();
+  }, []);
+
+  const purchasehandle = () => {
+    Book.map((i) => {
+      return axios
+        .patch(
+          "http://3.113.31.126:3000/user/" +
+            Profile.id +
+            "/library/add/" +
+            i.CartBook.BookId +
+            "/"
+        )
+        .then((res) => {
+          console.log("success");
+
+          axios
+            .delete("http://3.113.31.126:3000/cart/" + Profile.id + "/delete/")
+            .then((res) => {
+              console.log("delete success");
+              props.navigation.navigate("Store");
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    });
+  };
 
   return (
     <View style={styles.container}>
       <Navbar props={props} />
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={use}
+          data={Book}
           renderItem={({ item }) => (
             <View style={styles.item}>
               {/* <Text style={styles.item}>{item.title}</Text> */}
               <View style={styles.imgcon}>
                 <Image
-                  source={require("../assets/cover-placeholder.jpg")} // prop.image?
+                  source={{
+                    uri: item.cover,
+                  }} // prop.image?
                   resizeMode={"stretch"}
                   style={{
                     width: "95%",
@@ -88,8 +97,8 @@ const CheckoutScreen = (props) => {
                 />
               </View>
               <View style={styles.textcon}>
-                <Text style={styles.namecon}>{item.title}</Text>
-                <Text style={styles.priceson}>{item.price}</Text>
+                <Text style={styles.namecon}>{item.name}</Text>
+                <Text style={styles.priceson}>{item.price} THB.</Text>
               </View>
             </View>
           )}
@@ -97,11 +106,11 @@ const CheckoutScreen = (props) => {
         <View style={styles.two}>
           <View style={{ flex: 1, flexDirection: "row", marginRight: "0.2%" }}>
             <Text style={styles.finalcon}>Total</Text>
-            <Text style={styles.totalprice}>XXX THB.</Text>
+            <Text style={styles.totalprice}>300 THB.</Text>
           </View>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View style={{ flex: 2 }}></View>
-            <View
+            <TouchableOpacity
               style={{
                 flex: 3,
                 backgroundColor: color.darkBrown,
@@ -113,6 +122,7 @@ const CheckoutScreen = (props) => {
                 marginRight: "2%",
                 marginBottom: "2%",
               }}
+              onPress={() => purchasehandle()}
             >
               <Text
                 style={{
@@ -123,7 +133,7 @@ const CheckoutScreen = (props) => {
               >
                 Purchase
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
