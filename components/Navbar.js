@@ -11,7 +11,12 @@ const nevBar = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.option}>
-        <Avatar.Text size={40} label="A" style={styles.avatar} />
+        <Avatar.Image
+          size={40}
+          source={{
+            uri: "https://webook-book.s3-ap-southeast-1.amazonaws.com/2",
+          }}
+        />
         <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}

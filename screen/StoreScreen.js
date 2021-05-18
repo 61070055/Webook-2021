@@ -129,7 +129,7 @@ const StoreScreen = (props) => {
             </View>
           </View>
           <View style={styles.box2}>
-            <Text style={{ paddingLeft: 20, fontSize: 20, marginBottom: 10 }}>
+            {/* <Text style={{ paddingLeft: 20, fontSize: 20, marginBottom: 10 }}>
               You May Like
             </Text>
             <Carousel
@@ -139,7 +139,7 @@ const StoreScreen = (props) => {
               itemWidth={200}
               renderItem={_renderItem}
               onSnapToItem={(index) => setActiveIndex(index)}
-            />
+            /> */}
           </View>
         </ScrollView>
       </SafeAreaView>
